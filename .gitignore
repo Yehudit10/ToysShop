@@ -1,0 +1,9 @@
+.vs/
+bin/
+obj/
+.userosscache
+.suo
+.user
+*.vscode
+*.cache
+*.pdb

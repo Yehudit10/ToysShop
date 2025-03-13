@@ -1,0 +1,6 @@
+@ToysShop_HostAddress = http://localhost:5022
+
+GET {{ToysShop_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
