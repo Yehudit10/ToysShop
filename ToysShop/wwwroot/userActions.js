@@ -2,7 +2,7 @@
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
     const firstname = document.getElementById("firstname").value;
-    const lastname = document.getElementById("lastname").value;
+    const lastnamepp = document.getElementById("lastname").value;
     const response = await fetch("https://localhost:44386/api/users", {
         method: 'POST',
         body: JSON.stringify({ username, password, firstname, lastname }),
@@ -29,9 +29,9 @@ const login = async () => {
         body: JSON.stringify({ username, password })
     })
 if (!response.ok)
-    throw new Error("Error in the server");
-const user =await response.json();
-    console.log(user);
+    throw new Error("Http error. status:"+response.status);
+    const user = await response.json();
+    sessionStorage.setItem("user", JSON.stringify(user))
  alert(`Welcome ${user.userName}, you were successfuly logged in`)
   window.location.assign("./update.html")
 
@@ -46,15 +46,16 @@ const updateUser = async() => {
     const password = document.getElementById("password").value;
     const firstname = document.getElementById("firstname").value;
     const lastname = document.getElementById("lastname").value;
-    const response = await fetch("https://localhost:44386/api/users", {
+    const userId = JSON.parse(sessionStorage.getItem("user")).id
+    const response = await fetch(`https://localhost:44386/api/users/${userId}`, {
         method: 'PUT',
-        body: JSON.stringify( {username, password,firstname,lastname}),
+        body: JSON.stringify({id:userId,username, password,firstname,lastname}),
         headers: {
             "Content-Type":"application/json"
         }
     })
     if (!response.ok)
-        throw new Error("updating failed in server")
+        throw new Error("Http error. status:" + response.status);
     const updatedUser = await response.json()
     console.log(updatedUser)
 }

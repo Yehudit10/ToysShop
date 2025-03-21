@@ -54,6 +54,7 @@ namespace ToysShop.Controllers
         [HttpPost]
         public IActionResult SignUp([FromBody]User user)
         {
+            Console.WriteLine(user);
             int numberOfUsers = System.IO.File.ReadLines(filePath).Count();
             user.Id = numberOfUsers + 1;
             string userJson = JsonSerializer.Serialize(user);
