@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ToysShop
+namespace Entities
 {
     public class User
     {
@@ -11,5 +11,6 @@ namespace ToysShop
         public string Password { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
+       
     }
 }

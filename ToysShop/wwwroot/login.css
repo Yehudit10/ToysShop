@@ -41,7 +41,8 @@ body {
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    
+    align-items:center;
 }
 
 input {
@@ -91,3 +92,25 @@ button {
         .signup-link a:hover {
             text-decoration: underline;
         }
+.check-strength-btn {
+   width:55%;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .check-strength-btn:hover {
+        
+        transform: translateY(-2px);
+    }
+
+    .check-strength-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }

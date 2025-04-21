@@ -21,16 +21,20 @@
                 <label for="password"></label>
                 <input type="text" id="password" placeholder="password" />
             </div>
-            <div class="div-input">
-                <label for="firstname"></label>
-                <input type="text" id="firstname" placeholder="first name" />
+                <div class="div-input">
+                    <button class="check-strength-btn" onclick="printPasswordStrength()">Check Password</button>
+                    <p id="password-strength"></p>
+                </div>
+                <div class="div-input">
+                    <label for="firstname"></label>
+                    <input type="text" id="firstname" placeholder="first name" />
+                </div>
+                <div class="div-input">
+                    <label for="lastname"></label>
+                    <input type="text" id="lastname" placeholder="last name" />
+                </div>
+                <button onclick="signUp()">Sign-Up</button>
             </div>
-            <div class="div-input">
-                <label for="lastname"></label>
-                <input type="text" id="lastname" placeholder="last name" />
-            </div>
-            <button onclick="signUp()">Sign-Up</button>
-        </div>
     </div>
     <script src="./userActions.js"></script>
 </body>
