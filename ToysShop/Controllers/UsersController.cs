@@ -13,9 +13,13 @@ namespace ToysShop.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        UserService userService = new UserService();
+        IUserService userService;
+        public UsersController(IUserService userService)
+        {
+            this.userService = userService;
+        }
         //GET: api/<UsersController>
-        [HttpGet]
+        [HttpGet] 
         public ActionResult<IEnumerable<User>> Get()
         {
             IEnumerable<User> users = userService.GetUsers();

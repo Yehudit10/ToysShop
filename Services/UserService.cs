@@ -6,9 +6,14 @@ using Zxcvbn;
 
 namespace Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
-        UserRepository userRepository = new UserRepository();
+        
+        private IUserRepository userRepository;
+        public UserService(IUserRepository userRepository)
+        {
+            this.userRepository = userRepository;
+        }
         public IEnumerable<User> GetUsers()
         {
             return userRepository.GetUsers();
@@ -27,7 +32,7 @@ namespace Services
         {
             return userRepository.Login(user);
         }
-        public User UpdateUser(int id,User user)
+        public User UpdateUser(int id, User user)
         {
             return userRepository.UpdateUser(id, user);
         }
