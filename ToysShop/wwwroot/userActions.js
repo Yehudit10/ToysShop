@@ -5,10 +5,6 @@ const signUp = async () => {
     const password = document.getElementById("password").value;
     const firstname = document.getElementById("firstname").value;
     const lastname = document.getElementById("lastname").value;
-    //if (checkPassword() < 2) {
-    //    const errorMessage = document.getElementById('error-message')
-    //    errorMessage.textContent = "Your password is weak, please try another one"
-    //}
     const response = await fetch("https://localhost:44386/api/users", {
         method: 'POST',
         body: JSON.stringify({ username, password, firstname, lastname }),
@@ -17,8 +13,6 @@ const signUp = async () => {
         }
     });
     if (!response.ok) {
-        //const errorMessage = document.getElementById('username-error-message')
-        //errorMessage.textContent = response.status
         throw new Error("Error status:" + response.status);
     }
 const user = await response.json();
@@ -48,7 +42,7 @@ if (!response.ok)
 const getAllUsers = async() => {
     const response = await fetch("https://localhost:44386/api/users");
     const users = await response.json();
-    //console.log(users);
+    console.log(users);
 }
 const updateUser = async() => {
     const username = document.getElementById("username").value;
