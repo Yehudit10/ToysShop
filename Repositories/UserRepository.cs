@@ -1,82 +1,40 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Repositories
 {
     public class UserRepository : IUserRepository
     {
-        string filePath = "./userfile.txt";
-
-        public IEnumerable<User> GetUsers()
+        private readonly ToysShopContext _toysShopContext;
+        public UserRepository(ToysShopContext toysShopContext)
         {
-            List<User> allUsers = new List<User>();
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string? currentUser;
-                while ((currentUser = reader.ReadLine()) != null)
-                {
-                    User serilizedUser = JsonSerializer.Deserialize<User>(currentUser);
-                    allUsers.Add(serilizedUser);
-                }
-            }
-            return allUsers;
+            _toysShopContext = toysShopContext;
         }
-        public User GetUserById(int id)
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.Id == id)
-                        return user;
-                }
-            }
-            return null;
+            return await _toysShopContext.Users.ToListAsync();
+        }
+        public async Task<User> GetUserById(int id)
+        {
+            return await _toysShopContext.Users.FindAsync(id);
         }
 
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
-            int numberOfUsers = System.IO.File.ReadLines(filePath).Count();
-            user.Id = numberOfUsers + 1;
-            string userJson = JsonSerializer.Serialize(user);
-            System.IO.File.AppendAllText(filePath, userJson + Environment.NewLine);
+            await _toysShopContext.Users.AddAsync(user);
+            await _toysShopContext.SaveChangesAsync();
             return user;
         }
-        public User Login(User user)
+        public async Task<User> Login(User user)
         {
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-                    User currentUser = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.UserName == currentUser.UserName && user.Password == currentUser.Password)
-                        return currentUser;
-                }
-            }
-            return null;
+            return await _toysShopContext.Users.Where(u => u.UserName == user.UserName && u.Password == user.Password)?.FirstAsync();
         }
-        public User UpdateUser(int id, User user)
+        public async Task<User> UpdateUser(int id, User user)
         {
-            string textToReplace = string.Empty;
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-
-                    User currentUser = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (currentUser.Id == id)
-                        textToReplace = currentUserInFile;
-                }
-            }
-            if (textToReplace == string.Empty)
-                return null;
-            string text = System.IO.File.ReadAllText(filePath);
-            text = text.Replace(textToReplace, JsonSerializer.Serialize(user));
-            System.IO.File.WriteAllText(filePath, text);
+            _toysShopContext.Users.Update(user);
+            _toysShopContext.SaveChangesAsync();
             return user;
         }
 

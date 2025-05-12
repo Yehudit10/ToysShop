@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using Services;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Zxcvbn;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,16 +14,16 @@ namespace ToysShop.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        IUserService userService;
+        private readonly IUserService _userService;
         public UsersController(IUserService userService)
         {
-            this.userService = userService;
+            _userService = userService;
         }
         //GET: api/<UsersController>
         [HttpGet] 
-        public ActionResult<IEnumerable<User>> Get()
+        public async Task<ActionResult<IEnumerable<User>>> Get()
         {
-            IEnumerable<User> users = userService.GetUsers();
+            IEnumerable<User> users =await _userService.GetUsers();
             if (users.Count() > 0)
             return Ok(users);
             return NoContent();
@@ -33,9 +34,9 @@ namespace ToysShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<User> GetByID(int id)
+        public async Task<ActionResult<User>> GetByID(int id)
         {
-            User user = userService.GetUserById(id);
+            User user =await _userService.GetUserById(id);
             if (user == null)
                 return NoContent();
            return Ok(user);
@@ -44,21 +45,21 @@ namespace ToysShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public IActionResult SignUp([FromBody]User user)
+        public async Task<IActionResult> SignUp([FromBody]User user)
         {
-            int strength = userService.GetPassStrength(user.Password);
+            int strength = _userService.GetPassStrength(user.Password);
             if (strength < 2)
                 return BadRequest("password is not strong enough");
-            User newUser =userService.AddUser(user);
+            User newUser =await _userService.AddUser(user);
             return CreatedAtAction(nameof(GetByID), new { id = user.Id }, newUser);
         }
 
 
         [Route("login")]
         [HttpPost]
-        public ActionResult<User> Login(User user)
+        public async Task<ActionResult<User>> Login(User user)
         {
-            User foundUser = userService.Login(user);
+            User foundUser =await _userService.Login(user);
             if(foundUser!=null)
                 return Ok(foundUser);
             return Unauthorized();
@@ -68,14 +69,14 @@ namespace ToysShop.Controllers
         [HttpPost]
         public ActionResult<User> CheckPasswordStrength([FromBody]string password)
         {
-            int strength = userService.GetPassStrength(password);
+            int strength = _userService.GetPassStrength(password);
             return Ok(strength);
         }
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public ActionResult<User> Put(int id, [FromBody]User user)
+        public async Task<ActionResult<User>> Put(int id, [FromBody]User user)
         {
-            User updatedUser = userService.UpdateUser(id, user);
+            User updatedUser =await _userService.UpdateUser(id, user);
             if (updatedUser==null)
                 return NotFound();
             return Ok(updatedUser);

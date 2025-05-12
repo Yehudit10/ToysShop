@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Repositories;
 using System.Net;
+using System.Threading.Tasks;
 using Zxcvbn;
 
 
@@ -9,36 +10,36 @@ namespace Services
     public class UserService : IUserService
     {
         
-        private IUserRepository userRepository;
+        private readonly IUserRepository _userRepository;
         public UserService(IUserRepository userRepository)
         {
-            this.userRepository = userRepository;
+            _userRepository = userRepository;
         }
-        public IEnumerable<User> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers()
         {
-            return userRepository.GetUsers();
+            return await _userRepository.GetUsers();
         }
         public int GetPassStrength(string password)
         {
             return Zxcvbn.Core.EvaluatePassword(password).Score;
         }
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
             if (GetPassStrength(user.Password) < 2)
                 throw new ArgumentException("password is too weak");
-            return userRepository.AddUser(user);
+            return await _userRepository.AddUser(user);
         }
-        public User Login(User user)
+        public async Task<User> Login(User user)
         {
-            return userRepository.Login(user);
+            return await _userRepository.Login(user);
         }
-        public User UpdateUser(int id, User user)
+        public async Task<User> UpdateUser(int id, User user)
         {
-            return userRepository.UpdateUser(id, user);
+            return await _userRepository.UpdateUser(id, user);
         }
-        public User GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
-            return userRepository.GetUserById(id);
+            return await _userRepository.GetUserById(id);
         }
 
     }
