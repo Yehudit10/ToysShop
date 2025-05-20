@@ -1,7 +1,0 @@
-{"Id":1,"UserName":"Yehudit_Bushrian","Password":"123456","FirstName":"yyyyyyy!!!!!!!!!!!!","LastName":"mylastname"}
-{"Id":2,"UserName":"noa434","Password":"123","FirstName":"noa","LastName":"bushrian"}
-{"Id":3,"UserName":"ruth","Password":"1234567","FirstName":"ruth","LastName":"bushrian"}
-{"Id":4,"UserName":"aaa","Password":"123","FirstName":"aaa","LastName":"bbb"}
-{"Id":5,"UserName":"bbb","Password":"1234","FirstName":"bbb","LastName":"ccc"}
-{"Id":6,"UserName":"oooo","Password":"1234","FirstName":"h","LastName":"i"}
-{"Id":7,"UserName":"yehudit100","Password":"100","FirstName":"","LastName":""}

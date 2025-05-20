@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+//using Microsoft.EntityFrameworkCore;
 
 
 namespace Entities;
-
 [Table("users")]
 public partial class User
 {
@@ -31,4 +31,7 @@ public partial class User
     [Column("last_name")]
     [StringLength(50)]
     public string LastName { get; set; }
+
+    [InverseProperty("User")]
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
