@@ -9,7 +9,6 @@ namespace Repositories
 {
     public interface IOrderRepository
     {
-         Task<IEnumerable<Order>> GetOrders(int id);
        Task<Order>  CreateOrder(Order order);
     }
 }

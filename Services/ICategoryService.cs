@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Repositories;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Services
 {
     public interface ICategoryService
     {
-        public Task<IEnumerable<Category>> GetAllCategories();
+        public Task<IEnumerable<CategoryDTO>> GetAllCategories();
         
     }
 }

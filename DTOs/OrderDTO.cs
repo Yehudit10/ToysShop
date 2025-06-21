@@ -1,0 +1,15 @@
+﻿using Entities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DTOs
+{
+    public record OrderDTO([Required] int UserId , DateTime? Date,double?  OrderSum,ICollection<OrderItemDTO> OrderItems);
+
+
+}

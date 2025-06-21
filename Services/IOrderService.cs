@@ -5,11 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using DTOs;
 namespace Services
 {
     public interface IOrderService
     {
-        Task<IEnumerable<Order>> GetOrders(int id);
-        Task<Order> CreateOrder(Order order);
+      
+        Task<OrderReturnDTO> CreateOrder(OrderDTO order);
     }
 }

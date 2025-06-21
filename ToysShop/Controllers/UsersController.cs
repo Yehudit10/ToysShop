@@ -1,7 +1,9 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
 using Services;
+using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Zxcvbn;
@@ -21,9 +23,9 @@ namespace ToysShop.Controllers
         }
         //GET: api/<UsersController>
         [HttpGet] 
-        public async Task<ActionResult<IEnumerable<User>>> Get()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> Get()
         {
-            IEnumerable<User> users =await _userService.GetUsers();
+            IEnumerable<UserDTO> users =await _userService.GetUsers();
             if (users.Count() > 0)
             return Ok(users);
             return NoContent();
@@ -34,9 +36,9 @@ namespace ToysShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetByID(int id)
+        public async Task<ActionResult<UserDTO>> GetByID(int id)
         {
-            User user =await _userService.GetUserById(id);
+            UserDTO user =await _userService.GetUserById(id);
             if (user == null)
                 return NoContent();
            return Ok(user);
@@ -45,21 +47,23 @@ namespace ToysShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public async Task<IActionResult> SignUp([FromBody]User user)
+        public async Task<IActionResult> SignUp([FromBody]RegisterUserDTO user)
         {
-            int strength = _userService.GetPassStrength(user.Password);
-            if (strength < 2)
-                return BadRequest("password is not strong enough");
-            User newUser =await _userService.AddUser(user);
-            return CreatedAtAction(nameof(GetByID), new { id = user.Id }, newUser);
+            //int strength = _userService.GetPassStrength(user.Password);
+            //if (strength < 2)
+            //    return BadRequest("password is not strong enough");
+            ServiceResult<UserDTO > result= await _userService.AddUser(user); 
+            if (!result.IsSuccess)
+                return StatusCode((int)result.ErrorStatus, result.ErrorMessage); 
+            return CreatedAtAction(nameof(GetByID), new { id = result.Data.Id }, result.Data);
         }
 
 
         [Route("login")]
         [HttpPost]
-        public async Task<ActionResult<User>> Login(User user)
+        public async Task<ActionResult<UserDTO>> Login(LoginUserDTO user)
         {
-            User foundUser =await _userService.Login(user);
+            UserDTO foundUser =await _userService.Login(user);
             if(foundUser!=null)
                 return Ok(foundUser);
             return Unauthorized();
@@ -67,26 +71,22 @@ namespace ToysShop.Controllers
         }
         [Route("password")]
         [HttpPost]
-        public ActionResult<User> CheckPasswordStrength([FromBody]string password)
+        public ActionResult<int> CheckPasswordStrength([FromBody]string password)
         {
             int strength = _userService.GetPassStrength(password);
             return Ok(strength);
         }
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> Put(int id, [FromBody]User user)
+        public async Task<ActionResult<UserDTO>> Put(int id, [FromBody] RegisterUserDTO user)
         {
-            User updatedUser =await _userService.UpdateUser(id, user);
-            if (updatedUser==null)
-                return NotFound();
-            return Ok(updatedUser);
+            ServiceResult<UserDTO> result= await _userService.UpdateUser(id, user);
+            if (!result.IsSuccess)
+                return StatusCode((int)result.ErrorStatus, result.ErrorMessage);
+            return Ok(result.Data);
 
         }
 
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
     }
 }

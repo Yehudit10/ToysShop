@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-//using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace Entities;
+
 [Table("users")]
+[Index("UserName", Name = "UQ__users__7C9273C4D8CACB6D", IsUnique = true)]
 public partial class User
 {
     [Key]

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using DTOs;
 using Entities;
 using Repositories;
 
@@ -11,17 +13,19 @@ namespace Services
     public class OrderService:IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        public OrderService(IOrderRepository orderRepository)
+        private readonly IMapper _mapper;
+        public OrderService(IOrderRepository orderRepository,IMapper mapper)
         {
             _orderRepository=orderRepository;
+            _mapper = mapper;
         }
-        public async Task<IEnumerable<Order>> GetOrders(int id)
+      
+        public async Task<OrderReturnDTO> CreateOrder(OrderDTO orderToCreate)
         {
-            return await _orderRepository.GetOrders(id);
-        }
-        public async Task<Order> CreateOrder(Order order)
-        {
-           return await  _orderRepository.CreateOrder(order);
+            Order order = _mapper.Map<Order>(orderToCreate);
+            Order createdOrder= await _orderRepository.CreateOrder(order);
+            OrderReturnDTO returnOrder = _mapper.Map<OrderReturnDTO>(createdOrder);
+            return returnOrder;
         }
     }
 }

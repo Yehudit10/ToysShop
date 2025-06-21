@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Services;
@@ -19,14 +20,15 @@ namespace ToysShop.Controllers
         }
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<ProductDTO>> Get(string? q,int? minPrice,int? maxPrice, [FromQuery] int?[]? categories, string? order)
         {
-            return await _productService.GetAllProducts();
+            
+            return await _productService.GetAllProducts(q,minPrice,maxPrice,categories,order);
         }
 
         // GET api/<ProductsController>/5
         [HttpGet("{id}")]
-        public async Task<Product> Get(int id)
+        public async Task<ProductDTO> Get(int id)
         {
             return await _productService.GetProductById(id);
         }

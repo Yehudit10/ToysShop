@@ -52,7 +52,7 @@ const updateUser = async() => {
     const userId = JSON.parse(sessionStorage.getItem("user")).id
     const response = await fetch(`https://localhost:44386/api/users/${userId}`, {
         method: 'PUT',
-        body: JSON.stringify({id:userId,username, password,firstname,lastname}),
+        body: JSON.stringify({username, password,firstname,lastname}),
         headers: {
             "Content-Type":"application/json"
         }

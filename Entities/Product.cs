@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-//using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Entities;
 
@@ -15,12 +15,12 @@ public partial class Product
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("categoryID")]
+    [Column("category_id")]
     public int? CategoryId { get; set; }
 
     [Column("name")]
     [StringLength(50)]
-    //[Unicode(false)]
+    [Unicode(false)]
     public string Name { get; set; }
 
     [Column("description")]
@@ -30,9 +30,9 @@ public partial class Product
     [Column("price")]
     public double? Price { get; set; }
 
-    [Column("imageUrl")]
+    [Column("image_url")]
     [StringLength(50)]
-    //[Unicode(false)]
+    [Unicode(false)]
     public string ImageUrl { get; set; }
 
     [ForeignKey("CategoryId")]

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Services;
+using DTOs;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ToysShop.Controllers
@@ -17,7 +18,7 @@ namespace ToysShop.Controllers
         }
         // GET: api/<CategoriesController>
         [HttpGet]
-        public async Task<IEnumerable<Category>> Get()
+        public async Task<IEnumerable<CategoryDTO>> Get()
         {
             return await _categoryService.GetAllCategories();
         }

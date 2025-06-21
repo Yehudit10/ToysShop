@@ -14,27 +14,40 @@ namespace Repositories
         }
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await _toysShopContext.Users.ToListAsync();
+            var users = await _toysShopContext.Users.AsNoTracking().ToListAsync();
+            return users;
         }
         public async Task<User> GetUserById(int id)
         {
-            return await _toysShopContext.Users.FindAsync(id);
+           //_toysShopContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            var user= await _toysShopContext.Users.FindAsync(id);
+            if (user != null&&_toysShopContext.Entry(user)!=null)
+                _toysShopContext.Entry(user).State = EntityState.Detached;
+            return user;
         }
 
         public async Task<User> AddUser(User user)
         {
+           
             await _toysShopContext.Users.AddAsync(user);
             await _toysShopContext.SaveChangesAsync();
             return user;
         }
         public async Task<User> Login(User user)
         {
-            return await _toysShopContext.Users.Where(u => u.UserName == user.UserName && u.Password == user.Password)?.FirstAsync();
+            
+            User foundUser= await _toysShopContext.Users.Where(u => u.UserName == user.UserName && u.Password == user.Password)?.FirstOrDefaultAsync();
+            return foundUser;
         }
         public async Task<User> UpdateUser(int id, User user)
         {
+
+           
+           
+
+            //_toysShopContext.Users.Update(new User { Id = 8, UserName = "dfef", Password = "fv4jrj38ug" });
             _toysShopContext.Users.Update(user);
-            _toysShopContext.SaveChangesAsync();
+            await _toysShopContext.SaveChangesAsync();
             return user;
         }
 

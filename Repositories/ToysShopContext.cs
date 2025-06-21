@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Entities;
-namespace Repositories;
+
+namespace Entities;
 
 public partial class ToysShopContext : DbContext
 {
@@ -12,7 +12,10 @@ public partial class ToysShopContext : DbContext
         : base(options)
     {
     }
-
+    public ToysShopContext()
+    {
+        
+    }
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
