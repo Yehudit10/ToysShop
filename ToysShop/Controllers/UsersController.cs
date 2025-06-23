@@ -49,9 +49,9 @@ namespace ToysShop.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp([FromBody]RegisterUserDTO user)
         {
-            //int strength = _userService.GetPassStrength(user.Password);
+            //int strength = _userService.GetPassStrength(user.Password); //delete unused code
             //if (strength < 2)
-            //    return BadRequest("password is not strong enough");
+            //    return BadRequest("password is not strong enough"); //delete unused code
             ServiceResult<UserDTO > result= await _userService.AddUser(user); 
             if (!result.IsSuccess)
                 return StatusCode((int)result.ErrorStatus, result.ErrorMessage); 
@@ -66,7 +66,7 @@ namespace ToysShop.Controllers
             UserDTO foundUser =await _userService.Login(user);
             if(foundUser!=null)
                 return Ok(foundUser);
-            return Unauthorized();
+            return Unauthorized(); //foundUser!=null ?  return Ok(foundUser) :  return Unauthorized();
 
         }
         [Route("password")]

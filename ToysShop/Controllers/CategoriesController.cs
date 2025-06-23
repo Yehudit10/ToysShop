@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Services;
 using DTOs;
+//delete unused code
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ToysShop.Controllers
@@ -22,6 +24,6 @@ namespace ToysShop.Controllers
         {
             return await _categoryService.GetAllCategories();
         }
-      
+
     }
 }
