@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Services;
 using System.Threading.Tasks;
+//delete unused code
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -31,9 +32,6 @@ namespace ToysShop.Controllers
         public async Task<ProductDTO> Get(int id)
         {
             return await _productService.GetProductById(id);
-        }
-
-
-        
+        }   
     }
 }

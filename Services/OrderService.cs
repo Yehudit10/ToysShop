@@ -24,8 +24,7 @@ namespace Services
         {
             Order order = _mapper.Map<Order>(orderToCreate);
             Order createdOrder= await _orderRepository.CreateOrder(order);
-            OrderReturnDTO returnOrder = _mapper.Map<OrderReturnDTO>(createdOrder);
-            return returnOrder;
+            return _mapper.Map<OrderReturnDTO>(createdOrder);
         }
     }
 }

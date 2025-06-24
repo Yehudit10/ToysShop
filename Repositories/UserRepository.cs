@@ -14,11 +14,11 @@ namespace Repositories
         }
         public async Task<IEnumerable<User>> GetUsers()
         {
-            var users = await _toysShopContext.Users.AsNoTracking().ToListAsync();
-            return users;
+            return await _toysShopContext.Users.AsNoTracking().ToListAsync();
         }
         public async Task<User> GetUserById(int id)
         {
+            //delete
            //_toysShopContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             var user= await _toysShopContext.Users.FindAsync(id);
             if (user != null&&_toysShopContext.Entry(user)!=null)
@@ -35,17 +35,10 @@ namespace Repositories
         }
         public async Task<User> Login(User user)
         {
-            
-            User foundUser= await _toysShopContext.Users.Where(u => u.UserName == user.UserName && u.Password == user.Password)?.FirstOrDefaultAsync();
-            return foundUser;
+            return await _toysShopContext.Users.Where(u => u.UserName == user.UserName && u.Password == user.Password)?.FirstOrDefaultAsync();
         }
         public async Task<User> UpdateUser(int id, User user)
         {
-
-           
-           
-
-            //_toysShopContext.Users.Update(new User { Id = 8, UserName = "dfef", Password = "fv4jrj38ug" });
             _toysShopContext.Users.Update(user);
             await _toysShopContext.SaveChangesAsync();
             return user;
